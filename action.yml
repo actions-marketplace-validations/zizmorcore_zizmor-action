@@ -56,6 +56,11 @@ inputs:
       results to the repository's security tab.
     required: false
     default: "true"
+  color:
+    description: |
+      Whether zizmor should output colorized CLI output.
+    required: false
+    default: "true"
 
 runs:
   using: composite
@@ -73,6 +78,7 @@ runs:
         GHA_ZIZMOR_VERSION: ${{ inputs.version }}
         GHA_ZIZMOR_TOKEN: ${{ inputs.token }}
         GHA_ZIZMOR_ADVANCED_SECURITY: ${{ inputs.advanced-security }}
+        GHA_ZIZMOR_COLOR: ${{ inputs.color }}
       shell: bash
 
     - name: Upload SARIF file to GitHub Advanced Security
