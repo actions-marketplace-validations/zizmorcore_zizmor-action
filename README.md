@@ -18,6 +18,7 @@ Run [`zizmor`] from GitHub Actions!
   - [`version`](#version)
   - [`token`](#token)
   - [`advanced-security`](#advanced-security)
+  - [`annotations`](#annotations)
 - [Permissions](#permissions)
 - [Troubleshooting](#troubleshooting)
 
@@ -219,6 +220,30 @@ when [`advanced-security`](#advanced-security) is enabled.
 [Advanced Security] functionality. If set to `false`, `zizmor-action`
 will not upload results to Advanced Security, and will instead
 print them to the console.
+
+### `annotations`
+
+*Default*: `false`
+
+`annotations` controls whether `zizmor-action` emits GitHub annotations for
+findings. When enabled, `zizmor-action` will use `zizmor`'s support
+for GitHub annotations to create annotations for findings.
+
+> [!WARNING]
+> GitHub imposes **significant limits** on annotations that come from workflows:
+> a single CI step within a workflow can only render 10 annotations.
+> If there are more than 10 findings, only the first 10 will be rendered, and
+> the rest will be logged to the action log but **not** rendered.
+>
+> For more information, see `zizmor`'s
+> [GitHub Annotations](https://docs.zizmor.sh/usage/#github-annotations)
+> documentation.
+
+> [!WARNING]
+> This option is **incompatible** with `advanced-security: true`,
+> which is the default. If you set `annotations: true`, you **must**
+> also set `advanced-security: false`. The action will refuse to run
+> if you do not do this.
 
 ### `color`
 

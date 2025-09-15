@@ -43,9 +43,16 @@ version_regex='^v?[0-9]+\.[0-9]+\.[0-9]+$'
 arguments=()
 arguments+=("--persona=${GHA_ZIZMOR_PERSONA}")
 
+if [[ "${GHA_ZIZMOR_ADVANCED_SECURITY}" == "true" && "${GHA_ZIZMOR_ANNOTATIONS}" == "true" ]]; then
+    err "Mutually exclusive options: 'advanced-security: true' and 'annotations: true'"
+    die "If you meant to enable 'annotations: true', you must explicitly set 'advanced-security: false'"
+fi
+
 if [[ "${GHA_ZIZMOR_ADVANCED_SECURITY}" == "true" ]]; then
     arguments+=("--format=sarif")
     output "sarif-file" "${output}"
+elif [[ "${GHA_ZIZMOR_ANNOTATIONS}" == "true" ]]; then
+    arguments+=("--format=github")
 fi
 
 [[ "${GHA_ZIZMOR_ONLINE_AUDITS}" == "true" ]] || arguments+=("--no-online-audits")
@@ -77,4 +84,3 @@ docker run \
     -- \
     ${GHA_ZIZMOR_INPUTS} \
         | tee "${output}"
-
