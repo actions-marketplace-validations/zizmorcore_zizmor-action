@@ -19,6 +19,8 @@ Run [`zizmor`] from GitHub Actions!
   - [`token`](#token)
   - [`advanced-security`](#advanced-security)
   - [`annotations`](#annotations)
+  - [`color`](#color)
+  - [`config`](#config)
 - [Permissions](#permissions)
 - [Troubleshooting](#troubleshooting)
 
@@ -251,6 +253,16 @@ for GitHub annotations to create annotations for findings.
 *Default*: `true`
 
 `color` controls whether `zizmor-action` outputs colorized log output.
+
+### `config`
+
+*Default*: none
+
+`config` is the path to a custom `zizmor` configuration file (e.g., `zizmor.yml`).
+
+See the [Configuration - Discovery] documentation for how explicit configuration files interact with `zizmor`'s default configuration loading behavior.
+
+[Configuration - Discovery]: https://docs.zizmor.sh/configuration/#discovery
 
 ## Permissions
 
