@@ -44,8 +44,7 @@ inputs:
     default: latest
   token:
     description: |
-      The GitHub API token to use for both zizmor and
-      GitHub Advanced Security (if the latter is enabled).
+      The GitHub API token to use for zizmor online-audits (if enabled).
     required: false
     default: ${{ github.token }}
   advanced-security:
@@ -56,6 +55,25 @@ inputs:
       results to the repository's security tab.
     required: false
     default: "true"
+  color:
+    description: |
+      Whether zizmor should output colorized CLI output.
+    required: false
+    default: "true"
+  annotations:
+    description: |
+      Whether to emit GitHub annotations for zizmor's results.
+
+      This will use GitHub's workflow commands under the hood.
+
+      This option is **mutually exclusive** with `advanced-security: true`.
+      You must explicitly set `advanced-security: false` to enable this option.
+    required: false
+    default: "false"
+  config:
+    description: Path to a custom zizmor configuration file Path (e.g., zizmor.yml).
+    required: false
+
 
 runs:
   using: composite
@@ -73,10 +91,13 @@ runs:
         GHA_ZIZMOR_VERSION: ${{ inputs.version }}
         GHA_ZIZMOR_TOKEN: ${{ inputs.token }}
         GHA_ZIZMOR_ADVANCED_SECURITY: ${{ inputs.advanced-security }}
+        GHA_ZIZMOR_COLOR: ${{ inputs.color }}
+        GHA_ZIZMOR_ANNOTATIONS: ${{ inputs.annotations }}
+        GHA_ZIZMOR_CONFIG: ${{ inputs.config }}
       shell: bash
 
     - name: Upload SARIF file to GitHub Advanced Security
-      uses: github/codeql-action/upload-sarif@ff0a06e83cb2de871e5a09832bc6a81e7276941f # v3.28.18
+      uses: github/codeql-action/upload-sarif@0499de31b99561a6d14a36a5f662c2a54f91beee # v4.31.2
       if: ${{ inputs.advanced-security == 'true' }}
       with:
         sarif_file: ${{ steps.run-zizmor.outputs.sarif-file }}
