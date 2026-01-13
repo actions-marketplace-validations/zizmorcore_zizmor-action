@@ -5,6 +5,11 @@ on:
     branches:
       - main
   pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
   workflow_dispatch:
 
 permissions: {}
@@ -39,6 +44,30 @@ jobs:
         with:
           advanced-security: true
           version: "1.6.0"
+
+  selftest-version-nonexistent-xfail:
+    name: "TEST: nonexistent version of zizmor (expected to fail)"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          persist-credentials: false
+
+      - uses: ./
+        id: zizmor
+        continue-on-error: true
+        with:
+          advanced-security: true
+          version: "9999.0.0"
+
+      - name: assert failure
+        env:
+          XFAIL: ${{ steps.zizmor.outcome == 'failure' }}
+          JOB_NAME: ${{ github.job }}
+        run: |
+          echo "xfail ${JOB_NAME}: ${XFAIL}"
+
+          [[ "${XFAIL}" == "true" ]] || { >&2 echo "expected step to fail"; exit 1; }
 
   selftest-plain:
     name: "TEST: emits plan format when 'advanced-security: false'"
@@ -144,6 +173,7 @@ jobs:
     needs:
       - selftest
       - selftest-version
+      - selftest-version-nonexistent-xfail
       - selftest-plain
       - selftest-plain-gha-hazmat-xfail
       - selftest-plain-gha-hazmat-offline-audits-xfail
