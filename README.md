@@ -21,6 +21,7 @@ Run [`zizmor`] from GitHub Actions!
   - [`annotations`](#annotations)
   - [`color`](#color)
   - [`config`](#config)
+- [Outputs](#outputs)
 - [Permissions](#permissions)
 - [Troubleshooting](#troubleshooting)
 
@@ -79,12 +80,12 @@ jobs:
       actions: read # only needed for private or internal repos
     steps:
       - name: Checkout repository
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
 
       - name: Run zizmor 🌈
-        uses: zizmorcore/zizmor-action@135698455da5c3b3e55f73f4419e481ab68cdd95 # v0.4.1
+        uses: zizmorcore/zizmor-action@71321a20a9ded102f6e9ce5718a2fcec2c4f70d8 # v0.5.2
 ```
 
 ### Usage without Github Advanced Security
@@ -114,12 +115,12 @@ jobs:
       actions: read # only needed for private or internal repos
     steps:
       - name: Checkout repository
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
 
       - name: Run zizmor 🌈
-        uses: zizmorcore/zizmor-action@135698455da5c3b3e55f73f4419e481ab68cdd95 # v0.4.1
+        uses: zizmorcore/zizmor-action@71321a20a9ded102f6e9ce5718a2fcec2c4f70d8 # v0.5.2
         with:
           advanced-security: false
 ```
@@ -139,7 +140,7 @@ repositories:
 
 ```yaml
 - name: Run zizmor 🌈
-  uses: zizmorcore/zizmor-action@135698455da5c3b3e55f73f4419e481ab68cdd95 # v0.4.1
+  uses: zizmorcore/zizmor-action@71321a20a9ded102f6e9ce5718a2fcec2c4f70d8 # v0.5.2
   with:
     inputs: |
       .github/workflows/fishy.yml
@@ -275,6 +276,14 @@ succeed even if no inputs were found.
 > This input only works with `zizmor v1.21.0` and later. It has no effect
 > on earlier versions of `zizmor`, meaning that the action will always fail
 > if no inputs are found on earlier versions.
+
+## Outputs
+
+### `output-file`
+
+When `advanced-security: true`, the `output-file` output will contain a filepath
+for `zizmor`'s static analysis results in the SARIF format.
+
 
 ## Permissions
 
