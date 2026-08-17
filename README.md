@@ -14,13 +14,18 @@ Run [`zizmor`] from GitHub Actions!
   - [Usage without Github Advanced Security](#usage-without-github-advanced-security)
 - [Inputs](#inputs)
   - [`inputs`](#inputs)
+  - [`collect`](#collect)
   - [`online-audits`](#online-audits)
+  - [`persona`](#persona)
+  - [`min-severity`](#min-severity)
+  - [`min-confidence`](#min-confidence)
   - [`version`](#version)
   - [`token`](#token)
   - [`advanced-security`](#advanced-security)
   - [`annotations`](#annotations)
   - [`color`](#color)
   - [`config`](#config)
+  - [`fail-on-no-inputs`](#fail-on-no-inputs)
 - [Outputs](#outputs)
 - [Permissions](#permissions)
 - [Troubleshooting](#troubleshooting)
@@ -50,7 +55,7 @@ section!
 >
 > To use workflow failure as a blocking signal, you can use GitHub's rulesets
 > feature. For more information, see
-> [About code scanning alerts - Pull request check failures for code scanning alerts].
+> [Set code scanning merge protection].
 
 > [!NOTE]
 > This is the recommended way to use `zizmor-action` as it provides
@@ -80,12 +85,12 @@ jobs:
       actions: read # only needed for private or internal repos
     steps:
       - name: Checkout repository
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
       - name: Run zizmor 🌈
-        uses: zizmorcore/zizmor-action@71321a20a9ded102f6e9ce5718a2fcec2c4f70d8 # v0.5.2
+        uses: zizmorcore/zizmor-action@3dc1ecc9bcb9e94e9b2c709687979e1298497054 # v0.6.2
 ```
 
 ### Usage without Github Advanced Security
@@ -115,12 +120,12 @@ jobs:
       actions: read # only needed for private or internal repos
     steps:
       - name: Checkout repository
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
       - name: Run zizmor 🌈
-        uses: zizmorcore/zizmor-action@71321a20a9ded102f6e9ce5718a2fcec2c4f70d8 # v0.5.2
+        uses: zizmorcore/zizmor-action@3dc1ecc9bcb9e94e9b2c709687979e1298497054 # v0.6.2
         with:
           advanced-security: false
 ```
@@ -140,7 +145,7 @@ repositories:
 
 ```yaml
 - name: Run zizmor 🌈
-  uses: zizmorcore/zizmor-action@71321a20a9ded102f6e9ce5718a2fcec2c4f70d8 # v0.5.2
+  uses: zizmorcore/zizmor-action@3dc1ecc9bcb9e94e9b2c709687979e1298497054 # v0.6.2
   with:
     inputs: |
       .github/workflows/fishy.yml
@@ -150,9 +155,22 @@ repositories:
 
 See `zizmor`'s [Input collection] documentation for more information.
 
+### `collect`
+
+*Default*: `default`
+
+`collect` controls `zizmor`'s input collection mode.
+
+See `zizmor`'s [Input collection] documentation for more information
+on the valid modes.
+
 ### `online-audits`
 
 *Default*: `true`
+
+> [!NOTE]
+> This input's default is the **opposite** of the `zizmor` CLI default, since every
+> GitHub Actions job receives a GitHub API token by default.
 
 `online-audits` controls whether `zizmor` runs online audits. Running without
 `online-audits` is faster but will produce fewer results.
@@ -367,7 +385,7 @@ If you hit this behavior, you have a few options:
 
 [`zizmor`]: https://docs.zizmor.sh
 [Advanced Security]: https://docs.github.com/en/get-started/learning-about-github/about-github-advanced-security
-[About code scanning alerts - Pull request check failures for code scanning alerts]: https://docs.github.com/en/code-security/code-scanning/managing-code-scanning-alerts/about-code-scanning-alerts#pull-request-check-failures-for-code-scanning-alerts
+[Set code scanning merge protection]: https://docs.github.com/en/code-security/how-tos/find-and-fix-code-vulnerabilities/manage-your-configuration/set-code-scanning-merge-protection
 [Input collection]: https://docs.zizmor.sh/usage/#input-collection
 [Audit Rules]: https://docs.zizmor.sh/audits/
 [Using personas]: https://docs.zizmor.sh/usage/#using-personas
